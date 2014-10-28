@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>reveal.js - The HTML Presentation Framework</title>
+
+        <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+        <meta name="author" content="Hakim El Hattab">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <script src="js/jquery.js"></script>
+        <script src="js/Utils.js"></script>
+        <script src="js/Particle.js"></script>
+        <script src="js/ParticleSystem.js"></script>
+        <script src="js/main.js"></script>
+
+        <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+        <script>
+            if( window.location.search.match( /print-pdf/gi ) ) {
+                var link = document.createElement( 'link' );
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = 'css/print/pdf.css';
+                document.getElementsByTagName( 'head' )[0].appendChild( link );
+            }
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <h1>Greetings</h1>
+                    <h3>puny humans</h3>
+                    <p>
+                        <small><a href="http://jamestease.co.uk">James Tease</a> / <a href="http://twitter.com/whostolemyhat">@whostolemyhat</a></small>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Demo</h2>
+                    <canvas id="canvas" width="800" height="600" style="border: 1px solid white;"></canvas>
+
+                    <aside class="notes">
+                        Do a click on it! Mouse pos is off since canvas isn't top left
+                    </aside>
+                </section>
+
+                <!-- inspiration -->
+                <section>
+                    <h2>Inspiration</h2>
+                    <p>Particles are cool</p>
+                    
+                    <p>Cogmind</p>
+                    <img src="http://www.gridsagegames.com/blog/gsg-content/uploads/2014/03/cogmind_particle_effects.png">
+                    <p><small><a href="http://www.gridsagegames.com/blog/2014/03/particle-effects/">http://www.gridsagegames.com/blog/2014/03/particle-effects/</a></small></p>
+                </section>
+
+                <!-- code -->
+                <section>
+                    <h2>Code</h2>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>HTML</h2>
+                        <pre><code data-trim contenteditable>
+    &lt;canvas id="canvas" width="800" height="600">&lt;/canvas>
+                        </code></pre>
+
+                        <aside class="notes">
+                            <p>id or class to access in JS</p>
+                            <p>width/height: don't resize in CSS! use JS or inline style</p>
+                        </aside>
+                    </section>
+
+                    <section>
+                        <canvas id="circle" style="border: 1px solid white;"></canvas>
+                    <pre><code data-trim contenteditable>
+&lt;canvas id="canvas" width="300" height="150">&lt;/canvas>
+                    </code></pre>
+                        <canvas id="circle-stretch" style="border: 1px solid white;height: 400px;width:150px;"></canvas>
+                    <pre><code data-trim contenteditable>
+&lt;canvas id="canvas" style="height: 400px;width:150px;">&lt;/canvas>
+                    </code></pre>
+                    </section>
+                </section>
+
+
+                <!-- canvas basics -->
+                <section>
+                    <h2>Canvas drawing</h2>
+
+                    <canvas style="border: 1px solid white;"></canvas>
+
+                    <pre><code data-trim contenteditable>
+&lt;canvas id="canvas" width="300" height="150">&lt;/canvas>
+                    </code></pre>
+
+                    <pre><code data-trim contenteditable>
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Canvas drawing</h2>
+                    <canvas id="circle-demo" style="border: 1px solid white;"></canvas>
+                    <pre><code data-trim contenteditable>
+context.beginPath();
+// x, y, radius, startAngle, endAngle, antiClockwise
+context.arc(150, 75, 20, 0, Math.PI*2, true);
+context.closePath();
+
+// colour it in so we can see it
+context.fillStyle = '#ff3';
+context.fill();
+                    </code></pre>
+                </section>
+
+
+                <section>
+                    <h2>Draw lots</h2>
+                    <canvas class="circle-demo-lots" style="border: 1px solid white;"></canvas>
+
+                    <pre><code data-trim contenteditable>
+context.beginPath();
+context.arc(150, 75, 20, 0, Math.PI*2, true);
+context.closePath();
+context.fillStyle = '#ff3';
+context.fill();
+
+context.beginPath();
+context.arc(10, 95, 10, 0, Math.PI*2, true);
+context.closePath();
+context.fillStyle = '#f33';
+context.fill();
+
+context.beginPath();
+context.arc(80, 120, 25, 0, Math.PI*2, true);
+context.closePath();
+context.fillStyle = '#3f3';
+context.fill();
+
+context.beginPath();
+context.arc(220, 35, 30, 0, Math.PI*2, true);
+context.closePath();
+context.fillStyle = '#3ff';
+context.fill();
+                    </code></pre>
+                </section>
+
+
+                <section>
+                    <h2>Refactor</h2>
+                    <canvas class="circle-demo-lots" style="border: 1px solid white;"></canvas>
+
+                    <pre><code data-trim contenteditable>
+function drawCircle(context, x, y, radius, colour) {
+    context.beginPath();
+    context.arc(x, y, radius, 0, Math.PI*2, true);
+    context.closePath();
+    context.fillStyle = colour;
+    context.fill();
+}
+
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+
+drawCircle(context, 150, 75, 20, '#ff3');
+drawCircle(context, 10, 95, 10, '#f33');
+drawCircle(context, 80, 20, 25, '#3f3');
+drawCircle(context, 220, 35, 30, '#3ff');
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>DRY (again)</h2>
+                    <p>Tell the particle to make itself</p>
+                    <pre><code data-trim contenteditable>
+function Particle() {
+    this.x = randomHorzPosition();
+    this.y = randomVertPosition();
+    this.radius = randomSize();
+    this.colour = randomColour();
+}
+
+function drawCircle(ctx, particle) {
+    ctx.beginPath();
+    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI*2, true);
+    ctx.closePath();
+    ctx.fillStyle = particle.colour;
+    ctx.fill();
+}
+
+for(var i = 0; i &lt; 10; i++) {
+    drawCircle(new Particle());
+}
+            </code></pre>
+                </section>
+
+                <section>
+                    <canvas id="circle-demo-particles" width="800" height="600" style="border: 1px solid white;"></canvas>
+                </section>
+
+                <!-- animation -->
+                <section>
+                    <h2>Animation</h2>
+                    <p>The fun stuff</p>
+                </section>
+
+                <section>
+                    <h2>The game loop</h2>
+                    <ul>
+                        <li>update</li>
+                        <li>draw</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>The loop</h2>
+                    <p>Lots of drawing</p>
+                    <p>60fps = call drawCircle() 60 times per second</p>
+                </section>
+
+                <section>
+                    <h2>setInterval()</h2>
+                    <pre><code data-trim contenteditable>
+var particles = [];
+for(var i = 0; i &lt; 10; i++) {
+    particles.push(new Particle());
+}
+
+setInterval(function() {
+    for(var i = 0; i &lt; particles.length; i++) {
+        drawCircle(particles[i]);
+    }
+}, 16); // 1000ms / 60fps = ~16ms
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Problems with setInterval</h2>
+                    <ul>
+                        <li>Inaccurate (lag)</li>
+                        <li>Runs even in background</li>
+                        <li>Fixed FPS</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>requestAnimationFrame</h2>
+                    <pre><code data-trim contenteditable>
+// named function containing rAF
+(function animation() {
+    // call rAF and pass in your animation loop
+    requestAnimationFrame(animation);
+
+    // do all your drawing
+    for(var i = 0; i &lt; particles.length; i++) {
+            drawCircle(particles[i]);
+    }
+})(); // IIFE
+
+</code></pre>
+                </section>
+
+                <section>
+                    <h2>Movement</h2>
+                    <ul>
+                        <li><strong>update</strong></li>
+                        <li>draw</li>
+                    </ul>
+
+                </section>
+
+                <section>
+                    <h2>Update in each frame</h2>
+
+                    <pre><code data-trim contenteditable>
+(function animation() {
+    requestAnimationFrame(animation);
+
+
+
+    for(var i = 0; i &lt; particles.length; i++) {
+            var particle = particles[i];
+
+            // update each particle
+            particle.x += randomHorzMovement();
+            particle.y += randomVertMovement();
+
+            // draw
+            drawCircle(particle);
+    }
+})();
+
+</code></pre>
+                </section>
+
+                <section>
+                    <a href="#" class="play">Play</a>
+                    <canvas id="circle-demo-movement" width="800" height="600" style="border: 1px solid white;"></canvas>
+                </section>
+
+                <section>
+                    <h2>Well, that didn't work</h2>
+                </section>
+
+                <section>
+                    <h2>Clear canvas each frame</h2>
+                    <pre><code>
+(function animation() {
+    requestAnimationFrame(animation);
+
+    // clear screen
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+
+    for(var i = 0; i &lt; particles.length; i++) {
+            var particle = particles[i];
+
+            // update each particle
+            particle.x += randomHorzMovement();
+            particle.y += randomVertMovement();
+
+            // draw
+            drawCircle(particle);
+    }
+})();
+</code></pre>
+                </section>
+
+                <section>
+                    <a href="#" class="play2">Play</a>
+                    <canvas id="circle-demo-movement2" width="800" height="600" style="border: 1px solid white;"></canvas>
+                </section>
+
+
+                <section>
+                    <h2>Beter, but not quite right</h2>
+                </section>
+
+                <section>
+                    <h2>Generate movement on particle creation</h2>
+<pre><code>
+function Particle() {
+    this.x = randomHorzPosition();
+    this.y = randomVertPosition();
+    this.velocityX = randomHorzMovememnt();
+    this.velocityY = randomVertMovement();
+
+    this.radius = randomSize();
+    this.colour = randomColour();
+}
+</code></pre>
+
+<small>Could also use velocity and angle - depends on use case</small>
+                </section>
+    
+                <section>
+                    <h2>Particles from a point</h2>
+                    <p>Particles should come from the same point</p>
+                </section>
+
+                <section>
+<pre><code>
+var x = context.canvas.width / 2;
+var y = context.canvas.width / 2;
+
+(function animation() {
+    requestAnimationFrame(animation);
+
+    // clear screen
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+
+    for(var i = 0; i &lt; particles.length; i++) {
+            var particle = particles[i];
+
+            // update each particle
+            particle.x += particle.velocityX;
+            particle.y += particle.velocityY;
+
+            // draw
+            drawCircle(particle);
+    }
+})();
+</code></pre>
+                </section>
+
+
+                <section>
+                    <a href="#" class="play3">Play</a>
+                    <canvas id="circle-demo-movement3" width="800" height="600" style="border: 1px solid white;"></canvas>
+                </section>
+
+                <section>
+                    <h2>Enough of circles!</h2>
+                    <p>Let's use letters</p>
+                </section>
+
+                <section>
+                    <h2>Letters all have character codes</h2>
+<pre><code>// Find the character code of lowercase a
+'a'.charCodeAt(0)
+// -> 97
+
+// ... and uppercase
+'A'.charCodeAt(0)
+// -> 65</code></pre>
+
+<p>Uppercase letters start at 65, lowercase letters start at 97, punctuation starts at 33</p>
+                </section>
+
+                <section>
+                    <h2>Letters from numbers</h2>
+<pre><code>String.fromCharCode(33)
+// -> "!"
+
+String.fromCharCode(65)
+// -> "A"</code></pre>
+                </section>
+
+                <section>
+                    <h2>Pick random letter</h2>
+<pre><code>
+function randomNumberInRange(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function pickALetterAnyLetter() {
+    // interesting characters in the range 33 - 126
+    return String.fromCharCode(randomNumberInRange(33, 126));
+}
+
+function Particle() {
+    ...
+    this.letter = pickALetterAnyLetter();
+}
+</code></pre>
+                </section>
+
+                <section>
+                    <h2>Drawing text</h2>
+<pre><code>function drawParticle(context, particle) {
+    context.fillStyle = particle.colour;
+    context.font = 'bold 14px arial';
+    context.fillText(particle.letter, particle.x, particle.y);
+}</code></pre>
+                </section>
+
+                <section>
+                    <a href="#" class="play-text">Play</a>
+                    <canvas id="text-demo" width="800" height="600" style="border: 1px solid white;"></canvas>
+                </section>
+
+                <section>
+                    <h2>Change the letter</h2>
+<pre><code>function changeParticleLetter(particle) {
+    particle.letter = pickALetterAnyLetter();
+}
+
+(function animloop(){
+    requestAnimFrame(animloop);
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+
+
+    for(var i = 0; i &lt; particles.length; i++) {
+        // change the letter
+        changeParticleLeter(particles[i]);
+
+        updateParticlePosition(particles[i]);
+        drawParticle(context, particles[i]);
+    }
+})();</code></pre>
+                </section>
+
+                <section>
+                    <a href="#" class="play-text2">Play</a>
+                    <canvas id="text-demo2" width="800" height="600" style="border: 1px solid white;"></canvas>
+                </section>
+    
+                <section>
+                    <h2>Frame-rate dependent</h2>
+                    <p>Letters change every frame - not what we want</p>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Fixed vs Variable timestep</h2>
+                        <p>Animation tied to framerate can lead to unexpected results</p>
+                        <p>eg move character 600px per second. At 60fps, need to move 10px per frame.</p>
+                        <p>On slower machine, running at 30fps - now character only moves 300px per second</p>
+                    </section>
+
+                    
+                    <section>
+                        <h2>Need for Speed: Rivals</h2>
+                        <p>FPS locked at 30fps</p>
+                        <p>Modders changed to 60fps</p>
+                        <p>Cars moved twice as fast as the player</p>
+                    </section>
+
+                    <section>
+                        <h2>Space Invaders</h2>
+                        <p>As enemies killed, fewer entities to draw = frames rendered faster = enemies faster</p>
+                        <p>Liked the effect so kept it (but unplayable on modern hardware!)</p>
+                    </section>
+
+                </section>
+
+                <section>
+                    <h2>Animation independent from framerate</h2>
+                    <p>Check how much time has elapsed since the last frame</p>
+                    <p>Use the difference (delta) between last frame and current time as basis for movement</p>
+                </section>
+
+                <section>
+                    <h2>Check the delta</h2>
+<pre><code>// store the current time
+var time;
+
+function Particle() {
+    ...
+    // last time particle changed letter
+    var changeLetterDelta = 0;
+
+    // how long should we wait for the letter to change?
+    var changeLetterThreshold = 250; // 250ms
+}
+
+(function animloop() {
+    requestAnimFrame(animloop);
+    
+    // get current time
+    var now = new Date().getTime();
+
+    // difference between last frame (time) and current time (now)
+    var delta = now - (time || now);
+
+    // since we're now rendering a frame, save the current time as the time of the last frame
+    time = now;
+
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    
+    for(var i = 0; i &lt; particles.length; i++) {
+        var particle = particles[i];
+
+        // particles keep track of the last time they changed letter
+        particle.changeLetterDelta += delta;
+    
+        // add the current time to the last time particle changed letter
+        // if it's past a certain point (changeLetterThreshold) then change
+        if(particle.changeLetterDelta >= particle.changeLetterThreshold) {
+            changeParticleLeter(particle);
+            particle.changeLetterDelta = 0;
+        }
+
+        updateParticlePosition(particle);
+        drawParticle(context, particle);
+    }
+})();</code></pre>
+                </section>
+
+
+
+
+
+                <!-- Example of nested vertical slides -->
+                <section>
+                    <section>
+                        <h2>Vertical Slides</h2>
+                        <p>
+                            Slides can be nested inside of other slides,
+                            try pressing <a href="#" class="navigate-down">down</a>.
+                        </p>
+                        <a href="#" class="image navigate-down">
+                            <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+                        </a>
+                    </section>
+                    <section>
+                        <h2>Basement Level 1</h2>
+                        <p>Press down or up to navigate.</p>
+                    </section>
+                    <section>
+                        <h2>Basement Level 2</h2>
+                        <p>Cornify</p>
+                        <a class="test" href="http://cornify.com">
+                            <img width="280" height="326" src="https://s3.amazonaws.com/hakim-static/reveal-js/cornify.gif" alt="Unicorn">
+                        </a>
+                    </section>
+                    <section>
+                        <h2>Basement Level 3</h2>
+                        <p>That's it, time to go back up.</p>
+                        <a href="#/2" class="image">
+                            <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(180deg);">
+                        </a>
+                    </section>
+                </section>
+
+                <section>
+                    <h2>Slides</h2>
+                    <p>
+                        Not a coder? No problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slid.es" target="_blank">http://slid.es</a>.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Point of View</h2>
+                    <p>
+                        Press <strong>ESC</strong> to enter the slide overview.
+                    </p>
+                    <p>
+                        Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Works in Mobile Safari</h2>
+                    <p>
+                        Try it out! You can swipe through the slides and pinch your way to the overview.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Marvelous Unordered List</h2>
+                    <ul>
+                        <li>No order here</li>
+                        <li>Or here</li>
+                        <li>Or here</li>
+                        <li>Or here</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Fantastic Ordered List</h2>
+                    <ol>
+                        <li>One is smaller than...</li>
+                        <li>Two is smaller than...</li>
+                        <li>Three!</li>
+                    </ol>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Markdown support
+
+                        For those of you who like that sort of thing. Instructions and a bit more info available [here](https://github.com/hakimel/reveal.js#markdown).
+
+                        ```
+                        <section data-markdown>
+                          ## Markdown support
+
+                          For those of you who like that sort of thing.
+                          Instructions and a bit more info available [here](https://github.com/hakimel/reveal.js#markdown).
+                        </section>
+                        ```
+                    </script>
+                </section>
+
+                <section id="transitions">
+                    <h2>Transition Styles</h2>
+                    <p>
+                        You can select from different transitions, like: <br>
+                        <a href="?transition=cube#/transitions">Cube</a> -
+                        <a href="?transition=page#/transitions">Page</a> -
+                        <a href="?transition=concave#/transitions">Concave</a> -
+                        <a href="?transition=zoom#/transitions">Zoom</a> -
+                        <a href="?transition=linear#/transitions">Linear</a> -
+                        <a href="?transition=fade#/transitions">Fade</a> -
+                        <a href="?transition=none#/transitions">None</a> -
+                        <a href="?#/transitions">Default</a>
+                    </p>
+                </section>
+
+                <section id="themes">
+                    <h2>Themes</h2>
+                    <p>
+                        Reveal.js comes with a few themes built in: <br>
+                        <a href="?#/themes">Default</a> -
+                        <a href="?theme=sky#/themes">Sky</a> -
+                        <a href="?theme=beige#/themes">Beige</a> -
+                        <a href="?theme=simple#/themes">Simple</a> -
+                        <a href="?theme=serif#/themes">Serif</a> -
+                        <a href="?theme=night#/themes">Night</a> <br>
+                        <a href="?theme=moon#/themes">Moon</a> -
+                        <a href="?theme=solarized#/themes">Solarized</a>
+                    </p>
+                    <p>
+                        <small>
+                            * Theme demos are loaded after the presentation which leads to flicker. In production you should load your theme in the <code>&lt;head&gt;</code> using a <code>&lt;link&gt;</code>.
+                        </small>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Global State</h2>
+                    <p>
+                        Set <code>data-state="something"</code> on a slide and <code>"something"</code>
+                        will be added as a class to the document element when the slide is open. This lets you
+                        apply broader style changes, like switching the background.
+                    </p>
+                </section>
+
+                <section data-state="customevent">
+                    <h2>Custom Events</h2>
+                    <p>
+                        Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
+                    </p>
+                    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+Reveal.addEventListener( 'customevent', function() {
+    console.log( '"customevent" has fired' );
+} );
+                    </code></pre>
+                </section>
+
+                <section>
+                    <section data-background="#007777">
+                        <h2>Slide Backgrounds</h2>
+                        <p>
+                            Set <code>data-background="#007777"</code> on a slide to change the full page background to the given color. All CSS color formats are supported.
+                        </p>
+                        <a href="#" class="image navigate-down">
+                            <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+                        </a>
+                    </section>
+                    <section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png">
+                        <h2>Image Backgrounds</h2>
+                        <pre><code>&lt;section data-background="image.png"&gt;</code></pre>
+                    </section>
+                    <section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" data-background-repeat="repeat" data-background-size="100px">
+                        <h2>Repeated Image Backgrounds</h2>
+                        <pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
+                    </section>
+                </section>
+
+                <section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
+                    <h2>Background Transitions</h2>
+                    <p>
+                        Pass reveal.js the <code>backgroundTransition: 'slide'</code> config argument to make backgrounds slide rather than fade.
+                    </p>
+                </section>
+
+                <section data-transition="linear" data-background="#8c4738" data-background-transition="slide">
+                    <h2>Background Transition Override</h2>
+                    <p>
+                        You can override background transitions per slide by using <code>data-background-transition="slide"</code>.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Clever Quotes</h2>
+                    <p>
+                        These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+                        &ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
+                    </p>
+                    <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+                        &ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
+                        reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
+                    </blockquote>
+                </section>
+
+                <section>
+                    <h2>Pretty Code</h2>
+                    <pre><code data-trim contenteditable>
+function linkify( selector ) {
+  if( supports3DTransforms ) {
+
+    var nodes = document.querySelectorAll( selector );
+
+    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
+      var node = nodes[i];
+
+      if( !node.className ) {
+        node.className += ' roll';
+      }
+    }
+  }
+}
+                    </code></pre>
+                    <p>Courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+                </section>
+
+                <section>
+                    <h2>Intergalactic Interconnections</h2>
+                    <p>
+                        You can link between slides internally,
+                        <a href="#/2/3">like this</a>.
+                    </p>
+                </section>
+
+                <section>
+                    <section id="fragments">
+                        <h2>Fragmented Views</h2>
+                        <p>Hit the next arrow...</p>
+                        <p class="fragment">... to step through ...</p>
+                        <ol>
+                            <li class="fragment"><code>any type</code></li>
+                            <li class="fragment"><em>of view</em></li>
+                            <li class="fragment"><strong>fragments</strong></li>
+                        </ol>
+
+                        <aside class="notes">
+                            This slide has fragments which are also stepped through in the notes window.
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Fragment Styles</h2>
+                        <p>There's a few styles of fragments, like:</p>
+                        <p class="fragment grow">grow</p>
+                        <p class="fragment shrink">shrink</p>
+                        <p class="fragment roll-in">roll-in</p>
+                        <p class="fragment fade-out">fade-out</p>
+                        <p class="fragment highlight-red">highlight-red</p>
+                        <p class="fragment highlight-green">highlight-green</p>
+                        <p class="fragment highlight-blue">highlight-blue</p>
+                        <p class="fragment current-visible">current-visible</p>
+                        <p class="fragment highlight-current-blue">highlight-current-blue</p>
+                    </section>
+                </section>
+
+                <section>
+                    <h2>Spectacular image!</h2>
+                    <a class="image" href="http://lab.hakim.se/meny/" target="_blank">
+                        <img width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
+                    </a>
+                </section>
+
+                <section>
+                    <h2>Export to PDF</h2>
+                    <p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, below is an example that's been uploaded to SlideShare.</p>
+                    <iframe id="slideshare" src="http://www.slideshare.net/slideshow/embed_code/13872948" width="455" height="356" style="margin:0;overflow:hidden;border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen> </iframe>
+                    <script>
+                        document.getElementById('slideshare').attributeName = 'allowfullscreen';
+                    </script>
+                </section>
+
+                <section>
+                    <h2>Take a Moment</h2>
+                    <p>
+                        Press b or period on your keyboard to enter the 'paused' mode. This mode is helpful when you want to take distracting slides off the screen
+                        during a presentation.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Stellar Links</h2>
+                    <ul>
+                        <li><a href="http://slid.es">Try the online editor</a></li>
+                        <li><a href="https://github.com/hakimel/reveal.js">Source code on GitHub</a></li>
+                        <li><a href="http://twitter.com/hakimel">Follow me on Twitter</a></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h1>THE END</h1>
+                    <h3>BY Hakim El Hattab / hakim.se</h3>
+                </section>
+
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Parallax scrolling
+                // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+                // parallaxBackgroundSize: '2100px 900px',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
